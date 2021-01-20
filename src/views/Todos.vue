@@ -6,19 +6,25 @@
     <AddTodo 
     @add-todo="addTodo" />
     <hr>
-    <TodoList v-bind:todos="todos"
+    <Loader 
+    v-if="loading"/>
+    <TodoList v-else-if="todos.length"
+    v-bind:todos="todos"
     @remove-todo="removeTodo" />
+    <p v-else>Всё выполнено!</p>
   </div>
 </template>
 
 <script>
 import TodoList from '@/components/TodoList'
 import AddTodo from '@/components/AddTodo'
+import Loader from '@/components/Loader'
 export default {
   name: 'App',
   data() {
     return {
-      todos: []
+      todos: [],
+      loading: true
     }
   },
   mounted() {
@@ -26,6 +32,7 @@ export default {
       .then(response => response.json())
       .then(json => {
         this.todos = json
+        this.loading = false
       })
   },
   methods: {
@@ -37,7 +44,7 @@ export default {
     }
   },
   components: {
-   TodoList, AddTodo
+   TodoList, AddTodo, Loader
   }
 }
 </script>
