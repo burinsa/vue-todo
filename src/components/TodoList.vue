@@ -19,8 +19,7 @@ export default {
         TodoItem
     },
     methods: {
-        removeTodo(id) {
-            
+        removeTodo(id) {            
             this.$emit('remove-todo', id);
         }
     }

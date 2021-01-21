@@ -17,7 +17,7 @@ export default {
             const newTodo = {
                 id: Date.now(),
                 title: this.title,
-                comleted: false
+                completed: false
             }
             this.$emit('add-todo', newTodo);
             this.title = '';

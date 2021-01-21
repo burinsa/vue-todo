@@ -5,11 +5,16 @@
     <hr>
     <AddTodo 
     @add-todo="addTodo" />
+    <select v-model="filter">
+        <option value="all">Все</option>
+        <option value="completed">Выполненые</option>
+        <option value="not-completed">Не выполненые</option>
+    </select>
     <hr>
     <Loader 
     v-if="loading"/>
-    <TodoList v-else-if="todos.length"
-    v-bind:todos="todos"
+    <TodoList v-else-if="filteredTodo.length"
+    v-bind:todos="filteredTodo"
     @remove-todo="removeTodo" />
     <p v-else>Всё выполнено!</p>
   </div>
@@ -24,7 +29,8 @@ export default {
   data() {
     return {
       todos: [],
-      loading: true
+      loading: true,
+      filter: "all"
     }
   },
   mounted() {
@@ -34,6 +40,20 @@ export default {
         this.todos = json
         this.loading = false
       })
+  },
+  computed: {
+      // eslint-disable-next-line vue/return-in-computed-property
+      filteredTodo() {
+        if (this.filter === "all") {
+              return this.todos
+        }
+        if (this.filter === 'completed') {
+            return this.todos.filter(t => t.completed)
+        }
+        if (this.filter === 'not-completed') {
+            return this.todos.filter(t => !t.completed)
+        }
+      }
   },
   methods: {
     removeTodo(id) {
